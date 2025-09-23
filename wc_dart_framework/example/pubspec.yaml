@@ -1,33 +1,34 @@
 name: example
 description: example of wc_dart_framework
 
-publish_to: 'none'
+publish_to: "none"
 
 environment:
-  sdk: ">=2.17.0 <4.0.0"
+  sdk: ">=3.8.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  wc_dart_framework: 1.8.0
-  built_value: ^8.11.0
+  wc_dart_framework: 1.11.0
+  built_value: 8.12.0
   built_collection: 5.1.1
-  hydrated_bloc: ^10.1.1
+  hydrated_bloc: 10.1.1
   bloc: 9.0.0
   flutter_bloc: 9.1.1
   meta: 1.16.0
   path_provider: 2.1.5
 
 dependency_overrides:
-  flutter_lints: 3.0.1
   wc_dart_framework:
     path: ../
-
-dev_dependencies:
   wc_dart_framework_generator:
     path: ../../wc_dart_framework_generator
-  build_runner: ^2.6.0
-  built_value_generator: ^8.11.0
+
+dev_dependencies:
+  flutter_lints: 6.0.0
+  wc_dart_framework_generator: 1.11.0
+  build_runner: 2.8.0
+  built_value_generator: 8.12.0
 
 flutter:
   assets:

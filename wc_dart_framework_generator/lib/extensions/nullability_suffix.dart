@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 
 extension XNullabilitySuffix on NullabilitySuffix {
-  toCharacter() {
+  String toCharacter() {
     switch (this) {
       case NullabilitySuffix.question:
         return '?';

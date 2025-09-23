@@ -1,21 +1,38 @@
 builders:
   built_enum:
     import: "package:wc_dart_framework_generator/builder.dart"
-    builder_factories: [ "enumBuilder" ]
-    build_extensions: { ".dart": [ ".enum.g.dart" ] }
+    builder_factories: ["enumBuilder"]
+    build_extensions: { ".dart": [".enum.g.dart"] }
     auto_apply: dependents
     build_to: source
+    defaults:
+      options:
+        run_only_if_triggered: true
 
   bloc:
     import: "package:wc_dart_framework_generator/builder.dart"
-    builder_factories: [ "blocBuilder" ]
-    build_extensions: { ".dart": [ ".bloc.g.dart" ] }
+    builder_factories: ["blocBuilder"]
+    build_extensions: { ".dart": [".bloc.g.dart"] }
     auto_apply: dependents
     build_to: source
+    defaults:
+      options:
+        run_only_if_triggered: true
 
   asset:
     import: "package:wc_dart_framework_generator/builder.dart"
-    builder_factories: [ "assetBuilder" ]
-    build_extensions: { ".dart": [ ".asset.g.dart" ] }
+    builder_factories: ["assetBuilder"]
+    build_extensions: { ".dart": [".asset.g.dart"] }
     auto_apply: dependents
     build_to: source
+    defaults:
+      options:
+        run_only_if_triggered: true
+
+triggers:
+  wc_dart_framework_generator:built_enum:
+    - annotation EnumGen
+  wc_dart_framework_generator:bloc:
+    - annotation BlocGen
+  wc_dart_framework_generator:asset:
+    - annotation AssetGen

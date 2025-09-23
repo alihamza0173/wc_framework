@@ -1,4 +1,5 @@
 # wc_dart_framework
+
 Dart framework to provide common code for projects
 
 [![pub package](https://img.shields.io/pub/v/wc_dart_framework.svg)](https://pub.dev/packages/wc_dart_framework)
@@ -7,8 +8,8 @@ Dart framework to provide common code for projects
 [![Author](https://img.shields.io/badge/author-wisecrab-green)](https://wisecrab.com)
 
 ## About
-This package is designed to provide common code utilities for Flutter projects, reducing boilerplate code and improving development efficiency.
 
+This package is designed to provide common code utilities for Flutter projects, reducing boilerplate code and improving development efficiency.
 
 ## Features
 
@@ -17,6 +18,7 @@ This package is designed to provide common code utilities for Flutter projects, 
 - [BlocUpdateField](#blocupdatefield)
 - [EnumGen](#enumgen)
 - [Utils](#utils)
+
 ---
 
 ## How to use wc_dart_framework
@@ -98,8 +100,8 @@ class ExampleState {
   final String errorMessage;
 
   ExampleState({
-    this.isLoading = false, 
-    this.hasError = false, 
+    this.isLoading = false,
+    this.hasError = false,
     this.errorMessage = '',
   });
 }
@@ -143,12 +145,12 @@ ExampleBlocSelector.errorMessage(
 
 #### **Note:**
 
->These annotation works only when the state class is implemented using `built_value`. 
+> These annotation works only when the state class is implemented using `built_value`.
 
 ### BlocUpdateField
 
-The `@BlocUpdateField` annotation is used to auto-generate methods for updating state fields in BLoC classes. 
- 
+The `@BlocUpdateField` annotation is used to auto-generate methods for updating state fields in BLoC classes.
+
 #### Example
 
 Use the `@BlocUpdateField()` annotation on the fields you want to generate update methods for.
@@ -228,13 +230,13 @@ The `@BlocHydratedField` annotation marks a field to be persisted in a hydrated 
 String get userToken;
 ```
 
-When using `@BlocHydratedField`, ensure your BLoC class includes the `HydratedMixin` and `_$ExampleBlocHydratedMixin` mixins, and call `hydrate()` in the constructor to enable state hydration. 
+When using `@BlocHydratedField`, ensure your BLoC class includes the `HydratedMixin` and `_$ExampleBlocHydratedMixin` mixins, and call `hydrate()` in the constructor to enable state hydration.
 
 ```dart
 final _logger = Logger('example_bloc'); // Logger
 
 @BlocGen()
-class ExampleBloc extends Cubit<ExampleState> 
+class ExampleBloc extends Cubit<ExampleState>
     with _$ExampleBlocMixin, HydratedMixin, _$ExampleBlocHydratedMixin {
   ExampleBloc() : super(ExampleState()) {
     hydrate();
@@ -271,6 +273,7 @@ en.when(
   enum2: () => print('This is enum2'),
 );
 ```
+
 ---
 
 ### Utils
@@ -316,7 +319,7 @@ dart run build_runner build
 
 [![Contributors](https://img.shields.io/github/contributors/aarajput/wc_framework.svg?style=flat-square)](https://github.com/aarajput/wc_framework/graphs/contributors)
 
-- [Ali Abbas](https://github.com/aarajput) 
-- [Ali Hamza](https://github.com/alihamza0173)   
+- [Ali Abbas](https://github.com/aarajput)
+- [Ali Hamza](https://github.com/alihamza0173)
 
 ---
