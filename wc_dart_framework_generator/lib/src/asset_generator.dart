@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:change_case/change_case.dart';
 import 'package:glob/glob.dart';
@@ -11,13 +11,14 @@ import 'package:wc_dart_framework/wc_dart_framework.dart';
 class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
   @override
   String? generateForAnnotatedElement(
-    final Element2 element,
+    final Element element,
     final ConstantReader annotation,
     final BuildStep buildStep,
   ) {
     final path = annotation.read('path').stringValue;
-    final createStaticInstances =
-        annotation.read('createStaticInstances').boolValue;
+    final createStaticInstances = annotation
+        .read('createStaticInstances')
+        .boolValue;
     final showExtension = annotation.read('showExtension').boolValue;
     List<Glob>? getGlobs(final String key) {
       if (annotation.read(key).isNull) {

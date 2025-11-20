@@ -1,24 +1,23 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 
 extension XPropertyAccessorElement on GetterElement {
   bool get isReturnTypeNullable {
     return returnType.nullabilitySuffix == NullabilitySuffix.question;
-    return returnType.getDisplayString().endsWith('?');
   }
 
   bool hasAnnotation(final String annotation) {
-    return metadata2.annotations.indexWhere(
-          (final md) => md.element2?.displayName == annotation,
+    return metadata.annotations.indexWhere(
+          (final md) => md.element?.displayName == annotation,
         ) >=
         0;
   }
 }
 
-extension XClassElement on ClassElement2 {
+extension XClassElement on ClassElement {
   bool hasAnnotation(final String annotation) {
-    return metadata2.annotations.indexWhere(
-          (final md) => md.element2?.displayName == annotation,
+    return metadata.annotations.indexWhere(
+          (final md) => md.element?.displayName == annotation,
         ) >=
         0;
   }
