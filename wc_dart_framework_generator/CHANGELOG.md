@@ -10,7 +10,11 @@
 
 ## 1.10.0
 
-- analyzer: '>=6.5.0 <8.0.0'd
+- Migration: updated to analyzer 7.4 element model APIs.
+  - Adopted Element2 types and Fragment-based APIs.
+  - Replaced PropertyAccessorElement with GetterElement/SetterElement.
+  - Updated usages: element/element3, metadata2, declaredFragment, LibraryFragment.
+- analyzer: '>=7.4.0 <8.0.0'
 
 ## 1.9.4
 
