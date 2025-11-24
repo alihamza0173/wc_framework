@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.0
+
+- Refactor: migrated from deprecated Element2 APIs to Element API in generator files.
+- Asset generator now excludes system files (.DS_Store, ._*, Thumbs.db, desktop.ini) from generated code.
+
 ## 1.11.0
 
 - triggers are added to improve build performance

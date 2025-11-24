@@ -84,6 +84,12 @@ class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
     required final List<Glob>? excludeFileNames,
   }) {
     final fileName = basename(file.path);
+
+    // Exclude common system files
+    if (_isSystemFile(fileName)) {
+      return true;
+    }
+
     if (includeFileNames != null) {
       if (includeFileNames.any((final glob) => glob.matches(fileName))) {
         return false;
@@ -97,6 +103,18 @@ class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
       } else {
         return false;
       }
+    }
+    return false;
+  }
+
+  bool _isSystemFile(final String fileName) {
+    // Exclude macOS system files
+    if (fileName == '.DS_Store' || fileName.startsWith('._')) {
+      return true;
+    }
+    // Exclude Windows system files
+    if (fileName == 'Thumbs.db' || fileName == 'desktop.ini') {
+      return true;
     }
     return false;
   }
