@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.0
+
+- Version matched with 'wc_dart_framework_generator'
+
 ## 1.11.0
 
 - Version matched with 'wc_dart_framework_generator'
