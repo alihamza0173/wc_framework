@@ -15,7 +15,7 @@ dependencies:
   hydrated_bloc: 10.1.1
   bloc: 9.0.0
   flutter_bloc: 9.1.1
-  meta: 1.16.0
+  meta: 1.17.0
   path_provider: 2.1.5
 
 dependency_overrides:

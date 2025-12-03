@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:change_case/change_case.dart';
 import 'package:glob/glob.dart';
@@ -11,13 +11,14 @@ import 'package:wc_dart_framework/wc_dart_framework.dart';
 class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
   @override
   String? generateForAnnotatedElement(
-    final Element2 element,
+    final Element element,
     final ConstantReader annotation,
     final BuildStep buildStep,
   ) {
     final path = annotation.read('path').stringValue;
-    final createStaticInstances =
-        annotation.read('createStaticInstances').boolValue;
+    final createStaticInstances = annotation
+        .read('createStaticInstances')
+        .boolValue;
     final showExtension = annotation.read('showExtension').boolValue;
     List<Glob>? getGlobs(final String key) {
       if (annotation.read(key).isNull) {
@@ -83,6 +84,12 @@ class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
     required final List<Glob>? excludeFileNames,
   }) {
     final fileName = basename(file.path);
+
+    // Exclude common system files
+    if (_isSystemFile(fileName)) {
+      return true;
+    }
+
     if (includeFileNames != null) {
       if (includeFileNames.any((final glob) => glob.matches(fileName))) {
         return false;
@@ -96,6 +103,18 @@ class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
       } else {
         return false;
       }
+    }
+    return false;
+  }
+
+  bool _isSystemFile(final String fileName) {
+    // Exclude macOS system files
+    if (fileName == '.DS_Store' || fileName.startsWith('._')) {
+      return true;
+    }
+    // Exclude Windows system files
+    if (fileName == 'Thumbs.db' || fileName == 'desktop.ini') {
+      return true;
     }
     return false;
   }

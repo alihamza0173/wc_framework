@@ -1,12 +1,16 @@
 # Changelog
 
+## 1.12.0
+
+- Version matched with 'wc_dart_framework_generator'
+
 ## 1.11.0
 
 - Version matched with 'wc_dart_framework_generator'
 
 ## 1.10.0
 
-- Packages updated
+- Migration: aligned with analyzer 7.4 new element model (elements2/fragments).
 
 ## 1.9.1
 

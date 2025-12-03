@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.0
+
+- Refactor: migrated from deprecated Element2 APIs to Element API in generator files.
+- Asset generator now excludes system files (.DS_Store, ._*, Thumbs.db, desktop.ini) from generated code.
+
 ## 1.11.0
 
 - triggers are added to improve build performance
@@ -10,7 +15,11 @@
 
 ## 1.10.0
 
-- analyzer: '>=6.5.0 <8.0.0'd
+- Migration: updated to analyzer 7.4 element model APIs.
+  - Adopted Element2 types and Fragment-based APIs.
+  - Replaced PropertyAccessorElement with GetterElement/SetterElement.
+  - Updated usages: element/element3, metadata2, declaredFragment, LibraryFragment.
+- analyzer: '>=7.4.0 <8.0.0'
 
 ## 1.9.4
 
