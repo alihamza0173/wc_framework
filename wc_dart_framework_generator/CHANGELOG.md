@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+- Fix: Fixed generated code for `@BlocListenField` when using nullable state types. The `listenWhen` callback now correctly handles nullable states.
+
 ## 1.12.0
 
 - Refactor: migrated from deprecated Element2 APIs to Element API in generator files.
