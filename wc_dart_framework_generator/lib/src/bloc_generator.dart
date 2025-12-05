@@ -181,7 +181,7 @@ mixin _\$${cls.displayName}Mixin on Cubit<$clsStateName> {
       sb.writeln('''
     BlocBasicListener<${cls.displayName}, $clsStateName>(
       bloc: this,
-      listenWhen: (prev, next) => prev.$getterDisplayName != next.$getterDisplayName,
+      listenWhen: (prev, next) => prev$clsStateNullableEscapeCharacter.$getterDisplayName != next$clsStateNullableEscapeCharacter.$getterDisplayName,
     ).stream.listen((_) => _\$onUpdate${getterDisplayName.toPascalCase()}());
       ''');
     }
