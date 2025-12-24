@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.2
+
+- Fix: Fixed file path issue of asset_generator. Replaced windows path separator with posix.
+
 ## 1.12.1
 
 - Fix: Fixed generated code for `@BlocListenField` when using nullable state types. The `listenWhen` callback now correctly handles nullable states.
@@ -7,7 +11,7 @@
 ## 1.12.0
 
 - Refactor: migrated from deprecated Element2 APIs to Element API in generator files.
-- Asset generator now excludes system files (.DS_Store, ._*, Thumbs.db, desktop.ini) from generated code.
+- Asset generator now excludes system files (.DS*Store, .*\*, Thumbs.db, desktop.ini) from generated code.
 
 ## 1.11.0
 

@@ -4,6 +4,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:change_case/change_case.dart';
 import 'package:glob/glob.dart';
+import 'package:path/path.dart' as p;
 import 'package:path/path.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:wc_dart_framework/wc_dart_framework.dart';
@@ -64,13 +65,17 @@ class AssetGenerator extends GeneratorForAnnotation<AssetGen> {
       final baseName = showExtension
           ? basename(file.path)
           : basenameWithoutExtension(file.path);
+      final filePath = file.path.replaceAll(
+        p.windows.separator,
+        p.posix.separator,
+      );
       if (createStaticInstances) {
         sb.writeln(
-          "static const ${baseName.toConstantCase()}='${file.path}';",
+          "static const ${baseName.toConstantCase()}='$filePath';",
         );
       } else {
         sb.writeln(
-          "final ${baseName.toCamelCase()}='${file.path}';",
+          "final ${baseName.toCamelCase()}='$filePath';",
         );
       }
     }
