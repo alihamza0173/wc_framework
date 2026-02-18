@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.3
+
+- Updated `analyzer` constraint from `>=7.5.9 <9.0.0` to `>=9.0.0 <11.0.0`
+
 ## 1.12.2
 
 - Fix: Fixed file path issue of asset_generator. Replaced windows path separator with posix.
