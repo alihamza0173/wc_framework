@@ -14,6 +14,15 @@ extension XPropertyAccessorElement on GetterElement {
   }
 }
 
+extension XFieldElement on FieldElement {
+  bool hasAnnotation(final String annotation) {
+    return metadata.annotations.indexWhere(
+          (final md) => md.element?.displayName == annotation,
+        ) >=
+        0;
+  }
+}
+
 extension XClassElement on ClassElement {
   bool hasAnnotation(final String annotation) {
     return metadata.annotations.indexWhere(

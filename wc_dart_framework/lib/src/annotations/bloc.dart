@@ -1,11 +1,11 @@
 import 'package:meta/meta_meta.dart';
 
-@Target({TargetKind.getter})
+@Target({TargetKind.getter, TargetKind.field})
 class BlocUpdateField {
   const BlocUpdateField();
 }
 
-@Target({TargetKind.getter})
+@Target({TargetKind.getter, TargetKind.field})
 class BlocListenField {
   const BlocListenField();
 }
@@ -23,12 +23,12 @@ class BlocGen {
   });
 }
 
-@Target({TargetKind.getter})
+@Target({TargetKind.getter, TargetKind.field})
 class BlocGenIgnoreFieldSelector {
   const BlocGenIgnoreFieldSelector();
 }
 
-@Target({TargetKind.getter})
+@Target({TargetKind.getter, TargetKind.field})
 class BlocHydratedField {
   const BlocHydratedField();
 }

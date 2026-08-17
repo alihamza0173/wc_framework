@@ -8,6 +8,11 @@ import 'package:wc_dart_framework/wc_dart_framework.dart';
 import 'package:wc_dart_framework_generator/enums/bloc_type.dart';
 import 'package:wc_dart_framework_generator/extensions/element.dart';
 
+bool _fieldHasAnnotation(FieldElement field, String annotation) {
+  return field.hasAnnotation(annotation) ||
+      (field.getter?.hasAnnotation(annotation) ?? false);
+}
+
 class BlocGenerator extends GeneratorForAnnotation<BlocGen> {
   @override
   String? generateForAnnotatedElement(
@@ -69,13 +74,20 @@ class BlocGenerator extends GeneratorForAnnotation<BlocGen> {
     final clsStateNameWithoutNullCharacter = isClsStateNullable
         ? clsStateName.substring(0, clsStateName.length - 1)
         : clsStateName;
+    final isStateBuiltValue = clsState.isBuiltObject;
     final fields = clsState.fields.where((field) {
       final getter = field.getter;
       if (getter == null) {
         return false;
       }
-      if (!getter.isAbstract) {
-        return false;
+      if (isStateBuiltValue) {
+        if (!getter.isAbstract) {
+          return false;
+        }
+      } else {
+        if (field.isStatic || !field.isFinal || getter.isAbstract) {
+          return false;
+        }
       }
       return true;
     }).toList();
@@ -123,7 +135,7 @@ class ${cls.displayName}Selector<T> extends StatelessWidget {
     if (generateFieldSelectors) {
       for (final field in fields) {
         final getter = field.getter!;
-        if (getter.hasAnnotation('BlocGenIgnoreFieldSelector')) {
+        if (_fieldHasAnnotation(field, 'BlocGenIgnoreFieldSelector')) {
           continue;
         }
         String returnTypeDisplayNameWithNullability =
@@ -160,13 +172,13 @@ class ${cls.displayName}Selector<T> extends StatelessWidget {
 
     // creating bloc-mixing ---- start
     sb.writeln('''
-mixin _\$${cls.displayName}Mixin on Cubit<$clsStateName> {
+mixin _\$${cls.displayName}Mixin on BlocBase<$clsStateName> {
       ''');
     // bloc-mixing listenFields ---- start
     sb.writeln('void _listenFields(){');
     for (final field in fields) {
       final getter = field.getter!;
-      if (!getter.hasAnnotation('BlocListenField')) {
+      if (!_fieldHasAnnotation(field, 'BlocListenField')) {
         continue;
       }
       final getterDisplayName = getter.displayName;
@@ -181,7 +193,7 @@ mixin _\$${cls.displayName}Mixin on Cubit<$clsStateName> {
     // creating onUpdate methods
     for (final field in fields) {
       final getter = field.getter!;
-      if (!getter.hasAnnotation('BlocListenField')) {
+      if (!_fieldHasAnnotation(field, 'BlocListenField')) {
         continue;
       }
       sb.writeln('''
@@ -194,7 +206,7 @@ mixin _\$${cls.displayName}Mixin on Cubit<$clsStateName> {
     // bloc-mixing update fields ---- start
     for (final field in fields) {
       final getter = field.getter!;
-      if (!getter.hasAnnotation('BlocUpdateField')) {
+      if (!_fieldHasAnnotation(field, 'BlocUpdateField')) {
         continue;
       }
       final returnType = getter.returnType.element;
@@ -203,26 +215,32 @@ mixin _\$${cls.displayName}Mixin on Cubit<$clsStateName> {
   @mustCallSuper
   void ${blocType == BlocType.cubit ? '' : '_'}update${getter.displayName.toPascalCase()}(final ${getter.returnType} ${field.displayName}) {
         ''');
-      if (returnType is ClassElement && returnType.isBuiltValue) {
-        sb.writeln('''
-    emit(this.state$clsStateNullableEscapeCharacter.rebuild((final b) {
-        ''');
-        if (isReturnTypeNullable) {
+      if (isStateBuiltValue) {
+        if (returnType is ClassElement && returnType.isBuiltValue) {
           sb.writeln('''
+    emit(this.state$clsStateNullableEscapeCharacter.rebuild((final b) {
+          ''');
+          if (isReturnTypeNullable) {
+            sb.writeln('''
       if (${field.displayName} == null)
         b.${field.displayName} = null;
       else
-            ''');
-        }
-        sb.writeln('''
+              ''');
+          }
+          sb.writeln('''
         b.${field.displayName}.replace(${field.displayName});
-          ''');
-        sb.writeln('''
+            ''');
+          sb.writeln('''
     }));
-        ''');
+          ''');
+        } else {
+          sb.writeln('''
+    emit(this.state$clsStateNullableEscapeCharacter.rebuild((final b) => b.${field.displayName} = ${field.displayName}));
+          ''');
+        }
       } else {
         sb.writeln('''
-    emit(this.state$clsStateNullableEscapeCharacter.rebuild((final b) => b.${field.displayName} = ${field.displayName}));
+    emit(state$clsStateNullableEscapeCharacter.copyWith(${field.displayName}: ${field.displayName}));
         ''');
       }
       sb.writeln('}');
@@ -236,13 +254,18 @@ mixin _\$${cls.displayName}Mixin on Cubit<$clsStateName> {
         ? <FieldElement>[]
         : fields.where(
             (field) {
-              final getter = field.getter!;
-              if (!getter.hasAnnotation('BlocHydratedField')) {
+              if (!_fieldHasAnnotation(field, 'BlocHydratedField')) {
                 return false;
               }
               return true;
             },
           ).toList();
+    if (!isStateBuiltValue && (hydratedFields.isNotEmpty || isHydrateState)) {
+      throw ArgumentError(
+        '@BlocHydratedField and hydrateState are not supported for non-built_value state classes. '
+        'Use built_value state classes for hydration, or implement toJson/fromJson manually.',
+      );
+    }
     if (hydratedFields.isNotEmpty || isHydrateState) {
       if (!isHydrateState && isClsStateNullable) {
         throw ArgumentError(
